@@ -5,6 +5,8 @@ import { TabNavigation } from './components/TabNavigation';
 import { EmptyState } from './components/EmptyState';
 import { BottomBar } from './components/BottomBar';
 import { FooterWarning } from './components/FooterWarning';
+import TaskList from './components/TaskList';
+
 export function App() {
   return <div className="flex h-screen bg-[#FAF9F7] overflow-hidden">
       <Sidebar />
@@ -15,5 +17,6 @@ export function App() {
         <BottomBar />
         <FooterWarning />
       </div>
+      <TaskList />
     </div>;
 }
