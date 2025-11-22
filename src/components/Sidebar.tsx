@@ -11,7 +11,7 @@ export function Sidebar() {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-900 truncate">
-                Dr. Dan
+                Daniels
               </span>
               <span className="text-gray-400">▼</span>
             </div>
