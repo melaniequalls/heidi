@@ -9,25 +9,24 @@ import TaskList from './components/TaskList';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('note');
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   return <div className="flex h-screen bg-[#FAF9F7] overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header />
         <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-        {activeTab === 'note' ? (
-          <TaskList
-            selectedTaskId={selectedTaskId}
-            onSelectTask={setSelectedTaskId}
-          />
-        ) : (
-          <>
-            <EmptyState />
-            <BottomBar />
-          </>
-        )}
+        <div className="flex-1 overflow-hidden">
+          {activeTab === 'note' ? (
+            <div className="h-full" />
+          ) : (
+            <>
+              <EmptyState />
+              <BottomBar />
+            </>
+          )}
+        </div>
         <FooterWarning />
       </div>
+      <TaskList />
     </div>;
 }

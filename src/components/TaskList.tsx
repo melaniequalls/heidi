@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Plus, FlaskConical } from 'lucide-react';
+import { Plus, FlaskConical } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
 
@@ -7,7 +7,6 @@ export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isAddingTask, setIsAddingTask] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   useEffect(() => {
@@ -82,11 +81,9 @@ export default function TaskList() {
     }
   };
 
-  if (!isVisible) return null;
-
   if (selectedTask) {
     return (
-      <div className="fixed top-0 right-0 w-96 h-full bg-stone-50 border-l border-stone-200 shadow-lg">
+      <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col">
         <TaskDetails
           task={selectedTask}
           onBack={() => setSelectedTask(null)}
@@ -97,21 +94,13 @@ export default function TaskList() {
   }
 
   return (
-    <div className="fixed top-0 right-0 w-96 h-full bg-stone-50 border-l border-stone-200 shadow-lg flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-stone-200">
-        <div className="flex items-center gap-2">
-          <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
-            <FlaskConical className="w-3 h-3" />
-            Beta
-          </span>
-        </div>
-        <button
-          onClick={() => setIsVisible(false)}
-          className="p-1 hover:bg-stone-200 rounded transition-colors"
-        >
-          <X className="w-5 h-5 text-stone-600" />
-        </button>
+    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col">
+      <div className="flex items-center gap-2 p-4 border-b border-stone-200">
+        <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
+          <FlaskConical className="w-3 h-3" />
+          Beta
+        </span>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
