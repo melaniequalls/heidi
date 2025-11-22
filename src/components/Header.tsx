@@ -37,9 +37,7 @@ export function Header() {
           <Globe size={16} />
           <span>English</span>
         </div>
-        <div className="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-          ⚡ 14 days
-        </div>
+        
       </div>
     </div>;
 }
