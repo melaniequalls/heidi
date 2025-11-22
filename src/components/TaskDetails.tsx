@@ -164,7 +164,7 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
           </div>
         )}
 
-        {isAddingWarning ? (
+        {isAddingWarning && (
           <div className="bg-white rounded-lg border border-stone-200 p-4">
             <input
               type="text"
@@ -200,13 +200,6 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
               </button>
             </div>
           </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingWarning(true)}
-            className="text-sm text-amber-600 hover:text-amber-700 font-medium transition-colors"
-          >
-            + Add Warning
-          </button>
         )}
 
         <div className="bg-white rounded-lg border border-stone-200 p-4">
