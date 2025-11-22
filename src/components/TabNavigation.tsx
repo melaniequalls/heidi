@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AlignLeft, FileText, Edit3 } from 'lucide-react';
-export function TabNavigation() {
-  const [activeTab, setActiveTab] = useState('note');
+
+interface TabNavigationProps {
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+}
+
+export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   const tabs = [{
     id: 'context',
     label: 'Context',
@@ -20,7 +25,7 @@ export function TabNavigation() {
         {tabs.map(tab => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
-        return <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+        return <button key={tab.id} onClick={() => onTabChange(tab.id)} className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
               <Icon size={16} />
               {tab.label}
             </button>;
