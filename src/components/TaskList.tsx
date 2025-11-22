@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, FlaskConical } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
+import Medications from './Medications';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -83,18 +84,22 @@ export default function TaskList() {
 
   if (selectedTask) {
     return (
-      <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col">
-        <TaskDetails
-          task={selectedTask}
-          onBack={() => setSelectedTask(null)}
-          onDelete={() => deleteTask(selectedTask.id)}
-        />
+      <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+        <Medications />
+        <div className="flex-1 overflow-y-auto">
+          <TaskDetails
+            task={selectedTask}
+            onBack={() => setSelectedTask(null)}
+            onDelete={() => deleteTask(selectedTask.id)}
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col">
+    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+      <Medications />
       <div className="flex items-center gap-2 p-4 border-b border-stone-200">
         <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
