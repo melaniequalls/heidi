@@ -11,4 +11,8 @@ export type Task = {
   completed: boolean;
   created_at: string;
   updated_at: string;
+  notes?: string | null;
+  evidence_link?: string | null;
+  warnings?: string[] | null;
+  document_generated?: boolean;
 };

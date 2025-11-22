@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { X, Plus, MoreHorizontal, FlaskConical } from 'lucide-react';
+import { X, Plus, FlaskConical } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
+import TaskDetails from './TaskDetails';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   useEffect(() => {
     fetchTasks();
@@ -52,6 +54,7 @@ export default function TaskList() {
     } else {
       setNewTaskTitle('');
       setIsAddingTask(false);
+      fetchTasks();
     }
   };
 
@@ -74,10 +77,24 @@ export default function TaskList() {
 
     if (error) {
       console.error('Error deleting task:', error);
+    } else {
+      setSelectedTask(null);
     }
   };
 
   if (!isVisible) return null;
+
+  if (selectedTask) {
+    return (
+      <div className="fixed top-0 right-0 w-96 h-full bg-stone-50 border-l border-stone-200 shadow-lg">
+        <TaskDetails
+          task={selectedTask}
+          onBack={() => setSelectedTask(null)}
+          onDelete={() => deleteTask(selectedTask.id)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed top-0 right-0 w-96 h-full bg-stone-50 border-l border-stone-200 shadow-lg flex flex-col">
@@ -101,11 +118,15 @@ export default function TaskList() {
         {tasks.map((task) => (
           <div
             key={task.id}
-            className="bg-white rounded-lg border border-stone-200 p-4 hover:shadow-sm transition-shadow"
+            onClick={() => setSelectedTask(task)}
+            className="bg-white rounded-lg border border-stone-200 p-4 hover:shadow-sm transition-shadow cursor-pointer"
           >
             <div className="flex items-start gap-3">
               <button
-                onClick={() => toggleTask(task)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleTask(task);
+                }}
                 className="mt-0.5 flex-shrink-0"
               >
                 {task.completed ? (
@@ -136,13 +157,14 @@ export default function TaskList() {
                 >
                   {task.title}
                 </p>
+                {task.warnings && task.warnings.length > 0 && (
+                  <div className="flex items-center gap-1 mt-1">
+                    <span className="text-xs text-amber-600 font-medium">
+                      ⚠ {task.warnings.length} warning{task.warnings.length > 1 ? 's' : ''}
+                    </span>
+                  </div>
+                )}
               </div>
-              <button
-                onClick={() => deleteTask(task.id)}
-                className="flex-shrink-0 p-1 hover:bg-stone-100 rounded transition-colors"
-              >
-                <MoreHorizontal className="w-4 h-4 text-stone-500" />
-              </button>
             </div>
           </div>
         ))}
