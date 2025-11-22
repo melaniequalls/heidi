@@ -6,17 +6,17 @@ export function Sidebar() {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium">
-            BB
+            DR
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-900 truncate">
-                Blob Blob
+                Dr. Dan
               </span>
               <span className="text-gray-400">▼</span>
             </div>
             <div className="text-xs text-gray-500 truncate">
-              21arya21@gmail.c...
+              dan@lab.c...
             </div>
           </div>
           <button className="p-1 hover:bg-gray-100 rounded">
