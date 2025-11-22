@@ -16,11 +16,13 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
   const [isAddingWarning, setIsAddingWarning] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [completed, setCompleted] = useState(task.completed);
 
   useEffect(() => {
     setNotes(task.notes || '');
     setEvidenceLink(task.evidence_link || '');
     setWarnings(task.warnings || []);
+    setCompleted(task.completed);
   }, [task]);
 
   const updateTask = async (updates: Partial<Task>) => {
@@ -78,10 +80,12 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
   };
 
   const toggleComplete = async () => {
+    const newCompletedState = !completed;
+    setCompleted(newCompletedState);
     await supabase
       .from('tasks')
       .update({
-        completed: !task.completed,
+        completed: newCompletedState,
         updated_at: new Date().toISOString()
       })
       .eq('id', task.id);
@@ -109,7 +113,7 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
               onClick={toggleComplete}
               className="mt-1 flex-shrink-0"
             >
-              {task.completed ? (
+              {completed ? (
                 <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
                   <svg
                     className="w-4 h-4 text-white"
@@ -131,7 +135,7 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
             </button>
             <h3
               className={`text-lg font-medium flex-1 ${
-                task.completed ? 'line-through text-stone-500' : 'text-stone-900'
+                completed ? 'line-through text-stone-500' : 'text-stone-900'
               }`}
             >
               {task.title}
