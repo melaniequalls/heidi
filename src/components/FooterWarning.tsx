@@ -9,10 +9,6 @@ export function FooterWarning() {
           visit
         </span>
       </div>
-      <div className="flex items-center gap-2 text-gray-600">
-        <span>Tutorials</span>
-        <span className="font-medium">28%</span>
-        <TrendingUp size={16} className="text-green-600" />
-      </div>
+     
     </div>;
 }
