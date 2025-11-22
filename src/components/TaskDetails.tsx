@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, FileText, Trash2, AlertTriangle, Link as LinkIcon } from 'lucide-react';
+import { ArrowLeft, FileText, Trash2, AlertTriangle, Link as LinkIcon, ExternalLink } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 
 interface TaskDetailsProps {
@@ -8,9 +8,23 @@ interface TaskDetailsProps {
   onDelete: () => void;
 }
 
+const referenceLinks = [
+  {
+    title: 'NHSN Pneumonia Checklist (CDC)',
+    url: 'https://www.cdc.gov/nhsn/pdfs/checklists/2025-NHSN-Pneumonia-PNEU-Checklist-FINAL.pdf'
+  },
+  {
+    title: 'Pneumonia Treatment and Recovery',
+    url: 'https://www.lung.org/lung-health-diseases/lung-disease-lookup/pneumonia/treatment-and-recovery'
+  },
+  {
+    title: 'Pneumonia Symptoms and Diagnosis',
+    url: 'https://www.lung.org/lung-health-diseases/lung-disease-lookup/pneumonia/symptoms-and-diagnosis'
+  }
+];
+
 export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps) {
   const [notes, setNotes] = useState(task.notes || '');
-  const [evidenceLink, setEvidenceLink] = useState(task.evidence_link || '');
   const [warnings, setWarnings] = useState<string[]>(task.warnings || []);
   const [newWarning, setNewWarning] = useState('');
   const [isAddingWarning, setIsAddingWarning] = useState(false);
@@ -20,7 +34,6 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
 
   useEffect(() => {
     setNotes(task.notes || '');
-    setEvidenceLink(task.evidence_link || '');
     setWarnings(task.warnings || []);
     setCompleted(task.completed);
   }, [task]);
@@ -41,12 +54,6 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
   const handleNotesBlur = () => {
     if (notes !== task.notes) {
       updateTask({ notes });
-    }
-  };
-
-  const handleEvidenceLinkBlur = () => {
-    if (evidenceLink !== task.evidence_link) {
-      updateTask({ evidence_link: evidenceLink });
     }
   };
 
@@ -221,28 +228,24 @@ export default function TaskDetails({ task, onBack, onDelete }: TaskDetailsProps
         </div>
 
         <div className="bg-white rounded-lg border border-stone-200 p-4">
-          <label className="block text-sm font-semibold text-stone-900 mb-2">
+          <label className="block text-sm font-semibold text-stone-900 mb-3">
             <LinkIcon className="w-4 h-4 inline mr-1" />
-            Evidence Link
+            Reference Links
           </label>
-          <input
-            type="text"
-            value={evidenceLink}
-            onChange={(e) => setEvidenceLink(e.target.value)}
-            onBlur={handleEvidenceLinkBlur}
-            placeholder="https://example.com/evidence"
-            className="w-full text-sm text-stone-800 placeholder-stone-400 outline-none border border-stone-200 rounded px-3 py-2 focus:border-stone-400 transition-colors"
-          />
-          {evidenceLink && (
-            <a
-              href={evidenceLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-2 text-sm text-blue-600 hover:text-blue-700 underline"
-            >
-              Open link in new tab →
-            </a>
-          )}
+          <div className="space-y-2">
+            {referenceLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 transition-colors group"
+              >
+                <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                <span className="group-hover:underline">{link.title}</span>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-3">
