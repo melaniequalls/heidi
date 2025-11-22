@@ -9,7 +9,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <span className="text-gray-400">👤</span>
             <span className="text-gray-900 font-medium underline decoration-dotted underline-offset-4">
-              Marin Freckles
+              Martin Freckles
             </span>
           </div>
           <button className="p-1.5 text-red-500 hover:bg-red-50 rounded">
