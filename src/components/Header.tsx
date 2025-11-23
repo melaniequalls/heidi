@@ -21,7 +21,7 @@ export function Header() {
         <div className="relative">
           <button onClick={() => setShowDropdown(!showDropdown)} className="bg-green-600 text-white rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-medium hover:bg-green-700">
             <Mic size={18} />
-            Start transcribing
+            Resume
             <ChevronDown size={16} />
           </button>
         </div>
