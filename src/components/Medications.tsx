@@ -143,6 +143,9 @@ export default function Medications() {
               className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
             />
             <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
+            {medications.length > 0 && (
+              <span className="text-sm text-stone-600 font-medium">({medications.length})</span>
+            )}
             {hasAnyWarnings && (
               <AlertTriangle className="w-4 h-4 text-amber-600" />
             )}
