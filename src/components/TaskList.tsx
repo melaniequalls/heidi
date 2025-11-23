@@ -109,58 +109,15 @@ export default function TaskList() {
           <ChevronDown
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
-          <h2 className="text-lg font-semibold text-stone-900">Tasks</h2>
-         
+          <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
+            <FlaskConical className="w-3 h-3" />
+            Beta
+          </span>
         </button>
       </div>
 
       {isExpanded && <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        {isAddingTask ? (
-          <div className="bg-white rounded-lg border border-stone-200 p-4">
-            <input
-              type="text"
-              value={newTaskTitle}
-              onChange={(e) => setNewTaskTitle(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  addTask();
-                } else if (e.key === 'Escape') {
-                  setIsAddingTask(false);
-                  setNewTaskTitle('');
-                }
-              }}
-              placeholder="Task name"
-              className="w-full text-base text-stone-800 placeholder-stone-400 outline-none"
-              autoFocus
-            />
-            <div className="flex gap-2 mt-3 justify-end">
-              <button
-                onClick={addTask}
-                className="px-3 py-1.5 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
-              >
-                Add task
-              </button>
-              <button
-                onClick={() => {
-                  setIsAddingTask(false);
-                  setNewTaskTitle('');
-                }}
-                className="px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingTask(true)}
-            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">New task</span>
-          </button>
-        )}
-
         {tasks.map((task) => (
           <div
             key={task.id}
@@ -214,6 +171,52 @@ export default function TaskList() {
             </div>
           </div>
         ))}
+
+        {isAddingTask ? (
+          <div className="bg-white rounded-lg border border-stone-200 p-4">
+            <input
+              type="text"
+              value={newTaskTitle}
+              onChange={(e) => setNewTaskTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  addTask();
+                } else if (e.key === 'Escape') {
+                  setIsAddingTask(false);
+                  setNewTaskTitle('');
+                }
+              }}
+              placeholder="Task name"
+              className="w-full text-base text-stone-800 placeholder-stone-400 outline-none"
+              autoFocus
+            />
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={addTask}
+                className="px-3 py-1.5 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
+              >
+                Add task
+              </button>
+              <button
+                onClick={() => {
+                  setIsAddingTask(false);
+                  setNewTaskTitle('');
+                }}
+                className="px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsAddingTask(true)}
+            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="text-sm font-medium">New task</span>
+          </button>
+        )}
       </div>}
 
       {isExpanded && <div className="p-4 border-t border-stone-200">
