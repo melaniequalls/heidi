@@ -6,6 +6,7 @@ interface Medication {
   name: string;
   dosage: string;
   frequency: string;
+  warnings?: Warning[];
 }
 
 interface Warning {
@@ -35,10 +36,16 @@ export default function Medications() {
   const [warnings, setWarnings] = useState<Warning[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const hasConflicts = medications.some(med => {
+  const hasAnyWarnings = medications.some(med => {
+    if (med.warnings && med.warnings.length > 0) return true;
     const conflicts = DRUG_CONFLICTS[med.name] || [];
     const currentMedNames = medications.map(m => m.name);
-    return conflicts.some(conflictDrug => currentMedNames.includes(conflictDrug));
+    const hasConflicts = conflicts.some(conflictDrug => currentMedNames.includes(conflictDrug));
+    const hasAllergy = PATIENT_ALLERGIES.some(allergy =>
+      med.name.toLowerCase().includes(allergy.toLowerCase()) ||
+      allergy.toLowerCase().includes(med.name.toLowerCase())
+    );
+    return hasConflicts || hasAllergy;
   });
 
   const checkWarnings = (medName: string): Warning[] => {
@@ -92,7 +99,8 @@ export default function Medications() {
       id: Date.now().toString(),
       name: newMed.name,
       dosage: newMed.dosage || 'As prescribed',
-      frequency: newMed.frequency || 'As directed'
+      frequency: newMed.frequency || 'As directed',
+      warnings: []
     };
 
     setMedications([...medications, medication]);
@@ -106,7 +114,8 @@ export default function Medications() {
       id: Date.now().toString(),
       name: newMed.name,
       dosage: newMed.dosage || 'As prescribed',
-      frequency: newMed.frequency || 'As directed'
+      frequency: newMed.frequency || 'As directed',
+      warnings: warnings
     };
 
     setMedications([...medications, medication]);
@@ -130,7 +139,7 @@ export default function Medications() {
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
           <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
-          {hasConflicts && (
+          {hasAnyWarnings && (
             <AlertTriangle className="w-4 h-4 text-amber-600" />
           )}
         </button>
@@ -146,6 +155,16 @@ export default function Medications() {
                   <p className="font-medium text-stone-900">{med.name}</p>
                   <p className="text-sm text-stone-600">{med.dosage}</p>
                   <p className="text-xs text-stone-500">{med.frequency}</p>
+                  {med.warnings && med.warnings.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {med.warnings.map((warning, idx) => (
+                        <div key={idx} className="flex items-start gap-1.5">
+                          <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0 mt-0.5" />
+                          <p className="text-xs text-amber-700">{warning.message}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <button
                   onClick={() => removeMedication(med.id)}
