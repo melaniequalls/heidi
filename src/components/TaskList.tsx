@@ -4,6 +4,7 @@ import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
 import Diagnosis from './Diagnosis';
 import Conditions from './Conditions';
+import Allergies from './Allergies';
 import Medications from './Medications';
 
 export default function TaskList() {
@@ -94,6 +95,7 @@ export default function TaskList() {
       <div className="w-96 h-full bg-stone-50 border-l border-stone-200 overflow-y-auto">
         <Diagnosis />
         <Conditions />
+        <Allergies />
         <Medications />
         <TaskDetails
           task={selectedTask}
@@ -108,6 +110,7 @@ export default function TaskList() {
     <div className="w-96 h-full bg-stone-50 border-l border-stone-200 overflow-y-auto">
       <Diagnosis />
       <Conditions />
+      <Allergies />
       <Medications />
       <div className="border-b border-stone-200 bg-white">
         <div className="flex items-center justify-between p-4">

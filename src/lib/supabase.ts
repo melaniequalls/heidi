@@ -32,3 +32,11 @@ export type Condition = {
   created_at: string;
   updated_at: string;
 };
+
+export type Allergy = {
+  id: string;
+  name: string;
+  notes?: string | null;
+  created_at: string;
+  updated_at: string;
+};
