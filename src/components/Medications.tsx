@@ -134,18 +134,29 @@ export default function Medications() {
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full mb-3 hover:opacity-70 transition-opacity"
-        >
-          <ChevronDown
-            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
-          />
-          <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
-          {hasAnyWarnings && (
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+          >
+            <ChevronDown
+              className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
+            />
+            <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
+            {hasAnyWarnings && (
+              <AlertTriangle className="w-4 h-4 text-amber-600" />
+            )}
+          </button>
+          {isExpanded && !isAddingMed && (
+            <button
+              onClick={() => setIsAddingMed(true)}
+              className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="text-sm font-medium">Add medication</span>
+            </button>
           )}
-        </button>
+        </div>
 
         {isExpanded && <div className="space-y-2 mb-3">
           {medications.map((med) => (
@@ -284,15 +295,7 @@ export default function Medications() {
               </div>
             )}
           </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingMed(true)}
-            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">Add medication</span>
-          </button>
-        ))}
+        ) : null)}
       </div>
     </div>
   );
