@@ -120,7 +120,7 @@ export default function Diagnosis() {
               }`}
             >
               <Plus className="w-4 h-4" />
-              <span className="text-sm font-medium">Add diagnosis</span>
+              <span className="text-sm font-medium">Diagnosis</span>
             </button>
           )}
         </div>
