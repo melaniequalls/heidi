@@ -6,8 +6,14 @@ import Diagnosis from './Diagnosis';
 import Conditions from './Conditions';
 import Allergies from './Allergies';
 import Medications from './Medications';
+import AnalysisResults from './AnalysisResults';
+import { AnalysisResult } from '../lib/api';
 
-export default function TaskList() {
+interface TaskListProps {
+  analysisResult: AnalysisResult | null;
+}
+
+export default function TaskList({ analysisResult }: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isAddingTask, setIsAddingTask] = useState(false);
@@ -97,6 +103,7 @@ export default function TaskList() {
         <Conditions />
         <Allergies />
         <Medications />
+        <AnalysisResults result={analysisResult} />
         <TaskDetails
           task={selectedTask}
           onBack={() => setSelectedTask(null)}
@@ -112,6 +119,7 @@ export default function TaskList() {
       <Conditions />
       <Allergies />
       <Medications />
+      <AnalysisResults result={analysisResult} />
       <div className="border-b border-stone-200 bg-white">
         <div className="flex items-center justify-between p-4">
           <button

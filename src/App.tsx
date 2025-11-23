@@ -6,9 +6,23 @@ import { EmptyState } from './components/EmptyState';
 import { BottomBar } from './components/BottomBar';
 import { FooterWarning } from './components/FooterWarning';
 import TaskList from './components/TaskList';
+import { AnalysisResult } from './lib/api';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('note');
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+
+  React.useEffect(() => {
+    const handleAnalysisUpdate = () => {
+      const result = (window as any).analysisResult;
+      if (result) {
+        setAnalysisResult(result);
+      }
+    };
+
+    const interval = setInterval(handleAnalysisUpdate, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return <div className="flex h-screen bg-[#FAF9F7] overflow-hidden">
       <Sidebar />
@@ -27,6 +41,6 @@ export function App() {
         </div>
         <FooterWarning />
       </div>
-      <TaskList />
+      <TaskList analysisResult={analysisResult} />
     </div>;
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, X, AlertCircle } from 'lucide-react';
 import { supabase, Diagnosis as DiagnosisType } from '../lib/supabase';
+import { analyzePatient } from '../lib/api';
 
 const COMMON_ICD_CODES = [
   { code: 'E11.9', description: 'Type 2 diabetes mellitus without complications' },
@@ -74,6 +75,37 @@ export default function Diagnosis() {
       setShowCodeDropdown(false);
       setCodeSearchTerm('');
       fetchDiagnoses();
+      triggerAnalysis(newDiagnosis);
+    }
+  };
+
+  const triggerAnalysis = async (diagnosisText: string) => {
+    try {
+      const { data: conditions } = await supabase
+        .from('conditions')
+        .select('name');
+
+      const { data: allergies } = await supabase
+        .from('allergies')
+        .select('name');
+
+      const conditionsList = conditions?.map(c => c.name).join(', ') || 'None';
+      const allergiesList = allergies?.map(a => a.name).join(', ') || 'None';
+
+      const patientText = `
+Patient Information:
+Diagnosis: ${diagnosisText}
+Conditions: ${conditionsList}
+Allergies: ${allergiesList}
+      `.trim();
+
+      const result = await analyzePatient(patientText);
+
+      (window as any).analysisResult = result;
+
+      console.log('Analysis complete:', result);
+    } catch (error) {
+      console.error('Error analyzing patient:', error);
     }
   };
 
