@@ -126,29 +126,6 @@ export default function Medications() {
           <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
         </button>
 
-        {isExpanded && <div className="space-y-2 mb-3">
-          {medications.map((med) => (
-            <div
-              key={med.id}
-              className="bg-stone-50 rounded-lg border border-stone-200 p-3"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className="font-medium text-stone-900">{med.name}</p>
-                  <p className="text-sm text-stone-600">{med.dosage}</p>
-                  <p className="text-xs text-stone-500">{med.frequency}</p>
-                </div>
-                <button
-                  onClick={() => removeMedication(med.id)}
-                  className="p-1 hover:bg-stone-200 rounded transition-colors"
-                >
-                  <X className="w-4 h-4 text-stone-500" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>}
-
         {isExpanded && (isAddingMed ? (
           <div className="bg-stone-50 rounded-lg border border-stone-200 p-3 space-y-2">
             <input
@@ -238,6 +215,29 @@ export default function Medications() {
             <span className="text-sm font-medium">Add medication</span>
           </button>
         ))}
+
+        {isExpanded && <div className="space-y-2 mt-3">
+          {medications.map((med) => (
+            <div
+              key={med.id}
+              className="bg-stone-50 rounded-lg border border-stone-200 p-3"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <p className="font-medium text-stone-900">{med.name}</p>
+                  <p className="text-sm text-stone-600">{med.dosage}</p>
+                  <p className="text-xs text-stone-500">{med.frequency}</p>
+                </div>
+                <button
+                  onClick={() => removeMedication(med.id)}
+                  className="p-1 hover:bg-stone-200 rounded transition-colors"
+                >
+                  <X className="w-4 h-4 text-stone-500" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>}
       </div>
     </div>
   );
