@@ -119,7 +119,8 @@ export default function Diagnosis() {
                   : 'text-stone-600 hover:text-stone-800'
               }`}
             >
-            
+              
+            </button>
           )}
         </div>
 
