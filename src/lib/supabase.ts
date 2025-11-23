@@ -16,3 +16,18 @@ export type Task = {
   warnings?: string[] | null;
   document_generated?: boolean;
 };
+
+export type Diagnosis = {
+  id: string;
+  diagnosis: string;
+  codes: string[];
+  created_at: string;
+  updated_at: string;
+};
+
+export type Condition = {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+};

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Plus, FlaskConical, ChevronDown } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
+import Diagnosis from './Diagnosis';
+import Conditions from './Conditions';
 import Medications from './Medications';
 
 export default function TaskList() {
@@ -86,6 +88,8 @@ export default function TaskList() {
   if (selectedTask) {
     return (
       <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+        <Diagnosis />
+        <Conditions />
         <Medications />
         <div className="flex-1 overflow-y-auto">
           <TaskDetails
@@ -100,6 +104,8 @@ export default function TaskList() {
 
   return (
     <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+      <Diagnosis />
+      <Conditions />
       <Medications />
       <div className="border-b border-stone-200 bg-white">
         <button
