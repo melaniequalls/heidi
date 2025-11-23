@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, X, ChevronDown, AlertCircle } from 'lucide-react';
+import { Plus, X, AlertCircle } from 'lucide-react';
 import { supabase, Diagnosis as DiagnosisType } from '../lib/supabase';
 
 const COMMON_ICD_CODES = [
@@ -20,7 +20,6 @@ export default function Diagnosis() {
   const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
   const [showCodeDropdown, setShowCodeDropdown] = useState(false);
   const [codeSearchTerm, setCodeSearchTerm] = useState('');
-  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     fetchDiagnoses();
@@ -101,20 +100,29 @@ export default function Diagnosis() {
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full mb-3 hover:opacity-70 transition-opacity"
-        >
-          <ChevronDown
-            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
-          />
-          <h2 className="text-lg font-semibold text-stone-900">Diagnosis</h2>
-          {diagnoses.length === 0 && (
-            <AlertCircle className="w-4 h-4 text-amber-600" />
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-stone-900">Diagnosis</h2>
+            {diagnoses.length === 0 && (
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+            )}
+          </div>
+          {!isAddingDiagnosis && (
+            <button
+              onClick={() => setIsAddingDiagnosis(true)}
+              className={`flex items-center gap-2 transition-colors ${
+                diagnoses.length === 0
+                  ? 'text-red-600 hover:text-red-800 font-medium'
+                  : 'text-stone-600 hover:text-stone-800'
+              }`}
+            >
+              <Plus className="w-4 h-4" />
+              <span className="text-sm font-medium">Add diagnosis</span>
+            </button>
           )}
-        </button>
+        </div>
 
-        {isExpanded && (isAddingDiagnosis ? (
+        {isAddingDiagnosis ? (
           <div className="bg-stone-50 rounded-lg border border-stone-200 p-3 space-y-2">
             <input
               type="text"
@@ -217,17 +225,9 @@ export default function Diagnosis() {
               </button>
             </div>
           </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingDiagnosis(true)}
-            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">Add diagnosis</span>
-          </button>
-        ))}
+        ) : null}
 
-        {isExpanded && <div className="space-y-2 mt-3">
+        <div className="space-y-2 mt-3">
           {diagnoses.map((diagnosis) => (
             <div
               key={diagnosis.id}
@@ -262,7 +262,7 @@ export default function Diagnosis() {
               </div>
             </div>
           ))}
-        </div>}
+        </div>
       </div>
     </div>
   );
