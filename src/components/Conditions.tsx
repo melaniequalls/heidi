@@ -51,7 +51,16 @@ export default function Conditions() {
           <h2 className="text-lg font-semibold text-stone-900">Conditions</h2>
         </button>
 
-        {isExpanded && <div className="space-y-2 mb-3">
+        {isExpanded && (
+          <button
+            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="text-sm font-medium">New condition</span>
+          </button>
+        )}
+
+        {isExpanded && <div className="space-y-2 mt-3">
           {conditions.map((condition) => (
             <div
               key={condition.id}
@@ -61,15 +70,6 @@ export default function Conditions() {
             </div>
           ))}
         </div>}
-
-        {isExpanded && (
-          <button
-            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">New condition</span>
-          </button>
-        )}
       </div>
     </div>
   );

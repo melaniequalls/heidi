@@ -111,43 +111,6 @@ export default function Diagnosis() {
           <h2 className="text-lg font-semibold text-stone-900">Diagnosis</h2>
         </button>
 
-        {isExpanded && <div className="space-y-2 mb-3">
-          {diagnoses.map((diagnosis) => (
-            <div
-              key={diagnosis.id}
-              className="bg-stone-50 rounded-lg border border-stone-200 p-3"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className="font-medium text-stone-900">{diagnosis.diagnosis}</p>
-                  {diagnosis.codes.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {diagnosis.codes.map((code, idx) => {
-                        const codeInfo = COMMON_ICD_CODES.find(c => c.code === code);
-                        return (
-                          <span
-                            key={idx}
-                            className="inline-block px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded"
-                            title={codeInfo?.description}
-                          >
-                            {code}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-                <button
-                  onClick={() => removeDiagnosis(diagnosis.id)}
-                  className="p-1 hover:bg-stone-200 rounded transition-colors"
-                >
-                  <X className="w-4 h-4 text-stone-500" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>}
-
         {isExpanded && (isAddingDiagnosis ? (
           <div className="bg-stone-50 rounded-lg border border-stone-200 p-3 space-y-2">
             <input
@@ -260,6 +223,43 @@ export default function Diagnosis() {
             <span className="text-sm font-medium">Add diagnosis</span>
           </button>
         ))}
+
+        {isExpanded && <div className="space-y-2 mt-3">
+          {diagnoses.map((diagnosis) => (
+            <div
+              key={diagnosis.id}
+              className="bg-stone-50 rounded-lg border border-stone-200 p-3"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <p className="font-medium text-stone-900">{diagnosis.diagnosis}</p>
+                  {diagnosis.codes.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {diagnosis.codes.map((code, idx) => {
+                        const codeInfo = COMMON_ICD_CODES.find(c => c.code === code);
+                        return (
+                          <span
+                            key={idx}
+                            className="inline-block px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded"
+                            title={codeInfo?.description}
+                          >
+                            {code}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={() => removeDiagnosis(diagnosis.id)}
+                  className="p-1 hover:bg-stone-200 rounded transition-colors"
+                >
+                  <X className="w-4 h-4 text-stone-500" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>}
       </div>
     </div>
   );
