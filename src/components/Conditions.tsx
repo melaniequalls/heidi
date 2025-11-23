@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Plus, AlertCircle, ChevronDown } from 'lucide-react';
 import { supabase, Condition } from '../lib/supabase';
+import ConditionDetails from './ConditionDetails';
 
 export default function Conditions() {
   const [conditions, setConditions] = useState<Condition[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
 
   useEffect(() => {
     fetchConditions();
@@ -38,6 +40,32 @@ export default function Conditions() {
     }
   };
 
+  const handleDeleteCondition = async () => {
+    if (!selectedCondition) return;
+
+    const { error } = await supabase
+      .from('conditions')
+      .delete()
+      .eq('id', selectedCondition.id);
+
+    if (error) {
+      console.error('Error deleting condition:', error);
+    } else {
+      setSelectedCondition(null);
+      fetchConditions();
+    }
+  };
+
+  if (selectedCondition) {
+    return (
+      <ConditionDetails
+        condition={selectedCondition}
+        onBack={() => setSelectedCondition(null)}
+        onDelete={handleDeleteCondition}
+      />
+    );
+  }
+
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
@@ -69,7 +97,8 @@ export default function Conditions() {
             {conditions.map((condition) => (
               <div
                 key={condition.id}
-                className="bg-stone-50 rounded-lg border border-stone-200 p-3"
+                onClick={() => setSelectedCondition(condition)}
+                className="bg-stone-50 rounded-lg border border-stone-200 p-3 cursor-pointer hover:bg-stone-100 transition-colors"
               >
                 <p className="font-medium text-stone-900">{condition.name}</p>
               </div>
