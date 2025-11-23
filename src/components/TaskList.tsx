@@ -91,23 +91,21 @@ export default function TaskList() {
 
   if (selectedTask) {
     return (
-      <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+      <div className="w-96 h-full bg-stone-50 border-l border-stone-200 overflow-y-auto">
         <Diagnosis />
         <Conditions />
         <Medications />
-        <div className="flex-1 overflow-y-auto">
-          <TaskDetails
-            task={selectedTask}
-            onBack={() => setSelectedTask(null)}
-            onDelete={() => deleteTask(selectedTask.id)}
-          />
-        </div>
+        <TaskDetails
+          task={selectedTask}
+          onBack={() => setSelectedTask(null)}
+          onDelete={() => deleteTask(selectedTask.id)}
+        />
       </div>
     );
   }
 
   return (
-    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 overflow-y-auto">
       <Diagnosis />
       <Conditions />
       <Medications />
@@ -129,7 +127,7 @@ export default function TaskList() {
         </button>
       </div>
 
-      {isExpanded && <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      {isExpanded && <div className="p-4 space-y-3">
         {tasks.map((task) => (
           <div
             key={task.id}
