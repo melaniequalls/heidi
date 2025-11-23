@@ -11,11 +11,7 @@ export function Header() {
             <span className="text-gray-900 font-medium underline decoration-dotted underline-offset-4">
               Martin Freckles
             </span>
-          </div>
-          <button className="p-1.5 text-red-500 hover:bg-red-50 rounded">
-            <Trash2 size={18} />
-          </button>
-        </div>
+         
 
         {/* Right side - Start transcribing button */}
         <div className="relative">
