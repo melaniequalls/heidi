@@ -124,7 +124,7 @@ export default function ConditionDetails({ condition, onBack, onDelete }: Condit
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             onBlur={handleNotesBlur}
-            placeholder="Add detailed notes about this condition..."
+            placeholder="Add detailed notes..."
             className="w-full text-sm text-stone-800 placeholder-stone-400 outline-none resize-none border border-stone-200 rounded p-2 focus:border-stone-400 transition-colors"
             rows={4}
           />
