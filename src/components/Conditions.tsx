@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Plus, ChevronDown, AlertCircle } from 'lucide-react';
+import { Plus, AlertCircle } from 'lucide-react';
 import { supabase, Condition } from '../lib/supabase';
 
 export default function Conditions() {
   const [conditions, setConditions] = useState<Condition[]>([]);
-  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     fetchConditions();
@@ -41,29 +40,22 @@ export default function Conditions() {
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full mb-3 hover:opacity-70 transition-opacity"
-        >
-          <ChevronDown
-            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
-          />
-          <h2 className="text-lg font-semibold text-stone-900">Conditions</h2>
-          {conditions.length > 0 && (
-            <AlertCircle className="w-4 h-4 text-amber-600" />
-          )}
-        </button>
-
-        {isExpanded && (
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-stone-900">Conditions</h2>
+            {conditions.length > 0 && (
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+            )}
+          </div>
           <button
             className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
           >
             <Plus className="w-4 h-4" />
             <span className="text-sm font-medium">New condition</span>
           </button>
-        )}
+        </div>
 
-        {isExpanded && <div className="space-y-2 mt-3">
+        <div className="space-y-2 mt-3">
           {conditions.map((condition) => (
             <div
               key={condition.id}
@@ -72,7 +64,7 @@ export default function Conditions() {
               <p className="font-medium text-stone-900">{condition.name}</p>
             </div>
           ))}
-        </div>}
+        </div>
       </div>
     </div>
   );
