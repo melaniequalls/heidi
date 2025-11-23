@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlignLeft, FileText, Edit3 } from 'lucide-react';
+import { AlignLeft, FileText, Edit3, Bot } from 'lucide-react';
 
 interface TabNavigationProps {
   activeTab: string;
@@ -15,6 +15,10 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
     id: 'note',
     label: 'Note',
     icon: Edit3
+  }, {
+    id: 'agents',
+    label: 'Agents',
+    icon: Bot
   }];
   return <div className="bg-white border-b border-gray-200">
       <div className="px-6 flex gap-1">

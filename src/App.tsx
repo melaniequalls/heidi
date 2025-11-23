@@ -6,6 +6,7 @@ import { EmptyState } from './components/EmptyState';
 import { BottomBar } from './components/BottomBar';
 import { FooterWarning } from './components/FooterWarning';
 import TaskList from './components/TaskList';
+import AgentsView from './components/AgentsView';
 import { AnalysisResult } from './lib/api';
 
 export function App() {
@@ -32,6 +33,8 @@ export function App() {
         <div className="flex-1 overflow-hidden">
           {activeTab === 'note' ? (
             <div className="h-full" />
+          ) : activeTab === 'agents' ? (
+            <AgentsView result={analysisResult} />
           ) : (
             <>
               <EmptyState />
