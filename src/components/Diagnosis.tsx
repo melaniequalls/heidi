@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, X, ChevronDown } from 'lucide-react';
+import { Plus, X, ChevronDown, AlertCircle } from 'lucide-react';
 import { supabase, Diagnosis as DiagnosisType } from '../lib/supabase';
 
 const COMMON_ICD_CODES = [
@@ -109,6 +109,9 @@ export default function Diagnosis() {
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
           <h2 className="text-lg font-semibold text-stone-900">Diagnosis</h2>
+          {diagnoses.length === 0 && (
+            <AlertCircle className="w-4 h-4 text-amber-600" />
+          )}
         </button>
 
         {isExpanded && (isAddingDiagnosis ? (
