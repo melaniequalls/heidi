@@ -36,6 +36,8 @@ export default function Medications() {
   const [warnings, setWarnings] = useState<Warning[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
   const [generatePrescription, setGeneratePrescription] = useState(false);
+  const [editingMedId, setEditingMedId] = useState<string | null>(null);
+  const [editMed, setEditMed] = useState({ name: '', dosage: '', frequency: '' });
 
   const hasAnyWarnings = medications.some(med => {
     if (med.warnings && med.warnings.length > 0) return true;
@@ -131,6 +133,32 @@ export default function Medications() {
     setMedications(medications.filter(m => m.id !== id));
   };
 
+  const startEditing = (med: Medication) => {
+    setEditingMedId(med.id);
+    setEditMed({ name: med.name, dosage: med.dosage, frequency: med.frequency });
+  };
+
+  const cancelEditing = () => {
+    setEditingMedId(null);
+    setEditMed({ name: '', dosage: '', frequency: '' });
+  };
+
+  const saveMedication = (id: string) => {
+    if (!editMed.name.trim()) return;
+
+    setMedications(medications.map(m =>
+      m.id === id
+        ? {
+            ...m,
+            name: editMed.name,
+            dosage: editMed.dosage || 'As prescribed',
+            frequency: editMed.frequency || 'As directed'
+          }
+        : m
+    ));
+    cancelEditing();
+  };
+
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
@@ -164,33 +192,79 @@ export default function Medications() {
         {isExpanded && <div className="space-y-2 mb-3">
           {medications.map((med) => (
             <div key={med.id}>
-              <div className="bg-stone-50 rounded-lg border border-stone-200 p-2.5">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-stone-900 truncate">
-                      {med.name} <span className="text-stone-600 font-normal">{med.dosage}</span>
-                      {med.warnings && med.warnings.length > 0 && (
-                        <AlertTriangle className="inline-block w-3 h-3 text-amber-600 ml-1.5" />
-                      )}
-                    </p>
-                    <p className="text-xs text-stone-500">{med.frequency}</p>
+              {editingMedId === med.id ? (
+                <div className="bg-stone-50 rounded-lg border border-stone-200 p-2.5 space-y-2">
+                  <input
+                    type="text"
+                    value={editMed.name}
+                    onChange={(e) => setEditMed({ ...editMed, name: e.target.value })}
+                    placeholder="Medication name"
+                    className="w-full px-2 py-1.5 text-sm bg-white border border-stone-300 rounded outline-none focus:border-stone-400"
+                    autoFocus
+                  />
+                  <input
+                    type="text"
+                    value={editMed.dosage}
+                    onChange={(e) => setEditMed({ ...editMed, dosage: e.target.value })}
+                    placeholder="Dosage (e.g., 10mg)"
+                    className="w-full px-2 py-1.5 text-sm bg-white border border-stone-300 rounded outline-none focus:border-stone-400"
+                  />
+                  <input
+                    type="text"
+                    value={editMed.frequency}
+                    onChange={(e) => setEditMed({ ...editMed, frequency: e.target.value })}
+                    placeholder="Frequency (e.g., Once daily)"
+                    className="w-full px-2 py-1.5 text-sm bg-white border border-stone-300 rounded outline-none focus:border-stone-400"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => saveMedication(med.id)}
+                      className="px-3 py-1.5 text-xs font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={cancelEditing}
+                      className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
+                    >
+                      Cancel
+                    </button>
                   </div>
-                  <button
-                    onClick={() => removeMedication(med.id)}
-                    className="p-1 hover:bg-stone-200 rounded transition-colors flex-shrink-0"
-                  >
-                    <X className="w-3.5 h-3.5 text-stone-500" />
-                  </button>
                 </div>
-              </div>
-              {med.warnings && med.warnings.length > 0 && (
-                <div className="mt-1 ml-2.5 space-y-0.5">
-                  {med.warnings.map((warning, idx) => (
-                    <p key={idx} className="text-xs text-amber-700">
-                      {warning.message}
-                    </p>
-                  ))}
-                </div>
+              ) : (
+                <>
+                  <div className="bg-stone-50 rounded-lg border border-stone-200 p-2.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <div
+                        className="flex-1 min-w-0 cursor-pointer"
+                        onClick={() => startEditing(med)}
+                      >
+                        <p className="text-sm font-medium text-stone-900 truncate">
+                          {med.name} <span className="text-stone-600 font-normal">{med.dosage}</span>
+                          {med.warnings && med.warnings.length > 0 && (
+                            <AlertTriangle className="inline-block w-3 h-3 text-amber-600 ml-1.5" />
+                          )}
+                        </p>
+                        <p className="text-xs text-stone-500">{med.frequency}</p>
+                      </div>
+                      <button
+                        onClick={() => removeMedication(med.id)}
+                        className="p-1 hover:bg-stone-200 rounded transition-colors flex-shrink-0"
+                      >
+                        <X className="w-3.5 h-3.5 text-stone-500" />
+                      </button>
+                    </div>
+                  </div>
+                  {med.warnings && med.warnings.length > 0 && (
+                    <div className="mt-1 ml-2.5 space-y-0.5">
+                      {med.warnings.map((warning, idx) => (
+                        <p key={idx} className="text-xs text-amber-700">
+                          {warning.message}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           ))}
