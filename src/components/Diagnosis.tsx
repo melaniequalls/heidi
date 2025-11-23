@@ -119,7 +119,7 @@ export default function Diagnosis() {
                   : 'text-stone-600 hover:text-stone-800'
               }`}
             >
-              <span className="text-sm font-medium">Diagnosis</span>
+              <span className="text-sm font-medium">Add</span>
             </button>
           )}
         </div>
