@@ -111,7 +111,7 @@ export default function TaskList() {
           />
           <h2 className="text-lg font-semibold text-stone-900">Tasks</h2>
           <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
-            <FlaskConical className="w-3 h-3" />
+            
             Beta
           </span>
         </button>
