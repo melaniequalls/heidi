@@ -123,7 +123,7 @@ export default function Medications() {
           <ChevronDown
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
-          <h2 className="text-2xl font-semibold text-stone-900">Medications</h2>
+          <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
         </button>
 
         {isExpanded && <div className="space-y-2 mb-3">
