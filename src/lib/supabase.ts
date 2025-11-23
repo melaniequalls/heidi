@@ -21,6 +21,7 @@ export type Diagnosis = {
   id: string;
   diagnosis: string;
   codes: string[];
+  notes?: string | null;
   created_at: string;
   updated_at: string;
 };
