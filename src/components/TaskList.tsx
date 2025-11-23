@@ -133,7 +133,7 @@ export default function TaskList() {
               className="w-full text-base text-stone-800 placeholder-stone-400 outline-none"
               autoFocus
             />
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-3 justify-end">
               <button
                 onClick={addTask}
                 className="px-3 py-1.5 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
