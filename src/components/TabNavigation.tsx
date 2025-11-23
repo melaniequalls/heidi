@@ -8,10 +8,6 @@ interface TabNavigationProps {
 
 export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   const tabs = [{
-    id: 'context',
-    label: 'Context',
-    icon: AlignLeft
-  }, {
     id: 'transcript',
     label: 'Transcript',
     icon: FileText
