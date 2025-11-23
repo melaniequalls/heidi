@@ -42,7 +42,7 @@ export default function Conditions() {
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-semibold text-stone-900">Add Conditions</h2>
+            <h2 className="text-lg font-semibold text-stone-900">Conditions</h2>
             {conditions.length > 0 && (
               <AlertCircle className="w-4 h-4 text-amber-600" />
             )}
@@ -51,7 +51,7 @@ export default function Conditions() {
             className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">Condition</span>
+            <span className="text-sm font-medium">Add Condition</span>
           </button>
         </div>
 
