@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, X, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, X, AlertCircle, ChevronDown } from 'lucide-react';
 import { supabase, Diagnosis as DiagnosisType } from '../lib/supabase';
 import { analyzePatient } from '../lib/api';
 import DiagnosisDetails from './DiagnosisDetails';
@@ -296,10 +296,7 @@ Allergies: ${allergiesList}
                 className="bg-stone-50 rounded-lg border border-stone-200 p-3 cursor-pointer hover:bg-stone-100 transition-colors flex items-start justify-between"
               >
                 <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-stone-900">{diagnosis.diagnosis}</p>
-                    <ChevronRight className="w-4 h-4 text-stone-400" />
-                  </div>
+                  <p className="font-medium text-stone-900">{diagnosis.diagnosis}</p>
                   {diagnosis.codes.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {diagnosis.codes.map((code, idx) => {
