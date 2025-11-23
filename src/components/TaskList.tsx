@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, FlaskConical, ChevronDown } from 'lucide-react';
+import { Plus, ChevronDown, AlertCircle } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
 import Diagnosis from './Diagnosis';
@@ -12,6 +12,10 @@ export default function TaskList() {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isExpanded, setIsExpanded] = useState(true);
+
+  const completedCount = tasks.filter(t => t.completed).length;
+  const totalCount = tasks.length;
+  const hasIncompleteTasks = tasks.some(t => !t.completed);
 
   useEffect(() => {
     fetchTasks();
@@ -116,9 +120,11 @@ export default function TaskList() {
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
           <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
-            <FlaskConical className="w-3 h-3" />
-            Beta
+          {hasIncompleteTasks && (
+            <AlertCircle className="w-4 h-4 text-amber-600" />
+          )}
+          <span className="ml-auto text-sm text-stone-600 font-medium">
+            {completedCount}/{totalCount}
           </span>
         </button>
       </div>

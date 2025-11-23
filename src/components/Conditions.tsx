@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, ChevronDown } from 'lucide-react';
+import { Plus, ChevronDown, AlertCircle } from 'lucide-react';
 import { supabase, Condition } from '../lib/supabase';
 
 export default function Conditions() {
@@ -49,6 +49,9 @@ export default function Conditions() {
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
           <h2 className="text-lg font-semibold text-stone-900">Conditions</h2>
+          {conditions.length > 0 && (
+            <AlertCircle className="w-4 h-4 text-amber-600" />
+          )}
         </button>
 
         {isExpanded && (

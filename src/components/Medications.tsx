@@ -35,6 +35,12 @@ export default function Medications() {
   const [warnings, setWarnings] = useState<Warning[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
 
+  const hasConflicts = medications.some(med => {
+    const conflicts = DRUG_CONFLICTS[med.name] || [];
+    const currentMedNames = medications.map(m => m.name);
+    return conflicts.some(conflictDrug => currentMedNames.includes(conflictDrug));
+  });
+
   const checkWarnings = (medName: string): Warning[] => {
     const foundWarnings: Warning[] = [];
 
@@ -124,6 +130,9 @@ export default function Medications() {
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
           />
           <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
+          {hasConflicts && (
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
+          )}
         </button>
 
         {isExpanded && <div className="space-y-2 mb-3">
