@@ -165,6 +165,15 @@ export default function Medications() {
                           <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0 mt-0.5" />
                           <p className="text-xs text-amber-700">{warning.message}</p>
                         </div>
+
+ <button
+            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="text-sm font-medium">Add condition</span>
+          </button>
+        </div>
+                      
                       ))}
                     </div>
                   )}
