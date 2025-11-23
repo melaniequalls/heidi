@@ -110,80 +110,37 @@ export default function TaskList() {
       <Conditions />
       <Medications />
       <div className="border-b border-stone-200 bg-white">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full p-4 hover:opacity-70 transition-opacity"
-        >
-          <ChevronDown
-            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
-          />
-          <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
-          {hasIncompleteTasks && (
-            <AlertCircle className="w-4 h-4 text-amber-600" />
+        <div className="flex items-center justify-between p-4">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+          >
+            <ChevronDown
+              className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
+            />
+            <h2 className="text-lg font-semibold text-stone-900">Tasks</h2>
+            {hasIncompleteTasks && (
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+            )}
+            <span className="text-sm text-stone-600 font-medium">
+              {completedCount}/{totalCount}
+            </span>
+          </button>
+          {isExpanded && !isAddingTask && (
+            <button
+              onClick={() => setIsAddingTask(true)}
+              className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="text-sm font-medium">New Task</span>
+            </button>
           )}
-          <span className="ml-auto text-sm text-stone-600 font-medium">
-            {completedCount}/{totalCount}
-          </span>
-        </button>
+        </div>
       </div>
 
-      {isExpanded && <div className="p-4 space-y-3">
-        {tasks.map((task) => (
-          <div
-            key={task.id}
-            onClick={() => setSelectedTask(task)}
-            className="bg-white rounded-lg border border-stone-200 p-4 hover:shadow-sm transition-shadow cursor-pointer"
-          >
-            <div className="flex items-start gap-3">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleTask(task);
-                }}
-                className="mt-0.5 flex-shrink-0"
-              >
-                {task.completed ? (
-                  <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-                    <svg
-                      className="w-3 h-3 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={3}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                ) : (
-                  <div className="w-5 h-5 rounded-full border-2 border-stone-300 hover:border-stone-400 transition-colors" />
-                )}
-              </button>
-              <div className="flex-1 min-w-0">
-                <p
-                  className={`text-stone-800 text-base ${
-                    task.completed ? 'line-through text-stone-500' : ''
-                  }`}
-                >
-                  {task.title}
-                </p>
-                {task.warnings && task.warnings.length > 0 && (
-                  <div className="flex items-center gap-1 mt-1">
-                    <span className="text-xs text-amber-600 font-medium">
-                      ⚠ {task.warnings.length} warning{task.warnings.length > 1 ? 's' : ''}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {isAddingTask ? (
-          <div className="bg-white rounded-lg border border-stone-200 p-4">
+      {isExpanded && <div className="p-4 space-y-2">
+        {isAddingTask && (
+          <div className="bg-white rounded-lg border border-stone-200 p-3">
             <input
               type="text"
               value={newTaskTitle}
@@ -197,13 +154,13 @@ export default function TaskList() {
                 }
               }}
               placeholder="Task name"
-              className="w-full text-base text-stone-800 placeholder-stone-400 outline-none"
+              className="w-full text-sm text-stone-800 placeholder-stone-400 outline-none"
               autoFocus
             />
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-2">
               <button
                 onClick={addTask}
-                className="px-3 py-1.5 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
+                className="px-3 py-1 text-xs font-medium text-white bg-stone-800 hover:bg-stone-900 rounded transition-colors"
               >
                 Add task
               </button>
@@ -212,21 +169,67 @@ export default function TaskList() {
                   setIsAddingTask(false);
                   setNewTaskTitle('');
                 }}
-                className="px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
+                className="px-3 py-1 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
               >
                 Cancel
               </button>
             </div>
           </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingTask(true)}
-            className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">New task</span>
-          </button>
         )}
+
+        {tasks.map((task) => (
+          <div
+            key={task.id}
+            onClick={() => setSelectedTask(task)}
+            className="bg-white rounded-lg border border-stone-200 p-3 hover:shadow-sm transition-shadow cursor-pointer"
+          >
+            <div className="flex items-start gap-2">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleTask(task);
+                }}
+                className="mt-0.5 flex-shrink-0"
+              >
+                {task.completed ? (
+                  <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                    <svg
+                      className="w-2.5 h-2.5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className="w-4 h-4 rounded-full border-2 border-stone-300 hover:border-stone-400 transition-colors" />
+                )}
+              </button>
+              <div className="flex-1 min-w-0">
+                <p
+                  className={`text-stone-800 text-sm ${
+                    task.completed ? 'line-through text-stone-500' : ''
+                  }`}
+                >
+                  {task.title}
+                </p>
+                {task.warnings && task.warnings.length > 0 && (
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <span className="text-xs text-amber-600 font-medium">
+                      ⚠ {task.warnings.length} warning{task.warnings.length > 1 ? 's' : ''}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>}
 
       {isExpanded && <div className="p-4 border-t border-stone-200">
