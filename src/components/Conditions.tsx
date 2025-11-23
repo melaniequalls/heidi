@@ -51,7 +51,7 @@ export default function Conditions() {
             className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">Add condition</span>
+            <span className="text-sm font-medium">Condition</span>
           </button>
         </div>
 
