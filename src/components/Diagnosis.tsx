@@ -73,6 +73,8 @@ export default function Diagnosis() {
   };
 
   const removeDiagnosis = async (id: string) => {
+    setDiagnoses(diagnoses.filter(d => d.id !== id));
+
     const { error } = await supabase
       .from('diagnoses')
       .delete()
@@ -80,6 +82,7 @@ export default function Diagnosis() {
 
     if (error) {
       console.error('Error deleting diagnosis:', error);
+      fetchDiagnoses();
     }
   };
 
