@@ -163,34 +163,35 @@ export default function Medications() {
 
         {isExpanded && <div className="space-y-2 mb-3">
           {medications.map((med) => (
-            <div
-              key={med.id}
-              className="bg-stone-50 rounded-lg border border-stone-200 p-3"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className="font-medium text-stone-900">{med.name}</p>
-                  <p className="text-sm text-stone-600">{med.dosage}</p>
-                  <p className="text-xs text-stone-500">{med.frequency}</p>
-                  {med.warnings && med.warnings.length > 0 && (
-                    <div className="mt-2 space-y-1">
-                      {med.warnings.map((warning, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5">
-                          <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0 mt-0.5" />
-                          <p className="text-xs text-amber-700">{warning.message}</p>
-                        </div>
-                      
-                      ))}
-                    </div>
-                  )}
+            <div key={med.id}>
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-stone-900 truncate">
+                      {med.name} <span className="text-stone-600 font-normal">{med.dosage}</span>
+                      {med.warnings && med.warnings.length > 0 && (
+                        <AlertTriangle className="inline-block w-3 h-3 text-amber-600 ml-1.5" />
+                      )}
+                    </p>
+                    <p className="text-xs text-stone-500">{med.frequency}</p>
+                  </div>
+                  <button
+                    onClick={() => removeMedication(med.id)}
+                    className="p-1 hover:bg-stone-200 rounded transition-colors flex-shrink-0"
+                  >
+                    <X className="w-3.5 h-3.5 text-stone-500" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => removeMedication(med.id)}
-                  className="p-1 hover:bg-stone-200 rounded transition-colors"
-                >
-                  <X className="w-4 h-4 text-stone-500" />
-                </button>
               </div>
+              {med.warnings && med.warnings.length > 0 && (
+                <div className="mt-1 ml-2.5 space-y-0.5">
+                  {med.warnings.map((warning, idx) => (
+                    <p key={idx} className="text-xs text-amber-700">
+                      {warning.message}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>}
