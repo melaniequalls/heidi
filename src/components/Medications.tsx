@@ -38,6 +38,7 @@ export default function Medications() {
   const [generatePrescription, setGeneratePrescription] = useState(false);
   const [editingMedId, setEditingMedId] = useState<string | null>(null);
   const [editMed, setEditMed] = useState({ name: '', dosage: '', frequency: '' });
+  const [editGeneratePrescription, setEditGeneratePrescription] = useState(false);
 
   const hasAnyWarnings = medications.some(med => {
     if (med.warnings && med.warnings.length > 0) return true;
@@ -141,6 +142,7 @@ export default function Medications() {
   const cancelEditing = () => {
     setEditingMedId(null);
     setEditMed({ name: '', dosage: '', frequency: '' });
+    setEditGeneratePrescription(false);
   };
 
   const saveMedication = (id: string) => {
@@ -216,6 +218,28 @@ export default function Medications() {
                     placeholder="Frequency (e.g., Once daily)"
                     className="w-full px-2 py-1.5 text-sm bg-white border border-stone-300 rounded outline-none focus:border-stone-400"
                   />
+
+                  <div className="flex items-center justify-between pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={editGeneratePrescription}
+                        onChange={(e) => setEditGeneratePrescription(e.target.checked)}
+                        className="w-4 h-4 rounded border-stone-300 text-stone-800 focus:ring-stone-500"
+                      />
+                      <span className="text-sm text-stone-700">Generate prescription</span>
+                    </label>
+                    <a
+                      href="https://idmp.ucsf.edu/adult-antimicrobial-dosing-non-dialysis"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <span>Dosage reference</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => saveMedication(med.id)}
