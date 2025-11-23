@@ -114,7 +114,7 @@ export default function Medications() {
   };
 
   return (
-    <div className="border-b border-stone-200 bg-white">
+    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
       <div className="p-4">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
