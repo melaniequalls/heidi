@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, FlaskConical } from 'lucide-react';
+import { Plus, FlaskConical, ChevronDown } from 'lucide-react';
 import { supabase, Task } from '../lib/supabase';
 import TaskDetails from './TaskDetails';
 import Medications from './Medications';
@@ -9,6 +9,7 @@ export default function TaskList() {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     fetchTasks();
@@ -100,15 +101,23 @@ export default function TaskList() {
   return (
     <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
       <Medications />
-      <div className="flex items-center gap-2 p-4 border-b border-stone-200">
-        <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
-          <FlaskConical className="w-3 h-3" />
-          Beta
-        </span>
+      <div className="border-b border-stone-200 bg-white">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center gap-2 w-full p-4 hover:opacity-70 transition-opacity"
+        >
+          <ChevronDown
+            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
+          />
+          <h2 className="text-2xl font-semibold text-stone-900">Tasks</h2>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-stone-600 bg-stone-200 rounded">
+            <FlaskConical className="w-3 h-3" />
+            Beta
+          </span>
+        </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      {isExpanded && <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {tasks.map((task) => (
           <div
             key={task.id}
@@ -208,13 +217,13 @@ export default function TaskList() {
             <span className="text-sm font-medium">New task</span>
           </button>
         )}
-      </div>
+      </div>}
 
-      <div className="p-4 border-t border-stone-200">
+      {isExpanded && <div className="p-4 border-t border-stone-200">
         <p className="text-xs text-stone-500 text-center">
           Stale tasks will be archived in 30 days
         </p>
-      </div>
+      </div>}
     </div>
   );
 }

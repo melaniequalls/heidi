@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, AlertTriangle, X } from 'lucide-react';
+import { Plus, AlertTriangle, X, ChevronDown } from 'lucide-react';
 
 interface Medication {
   id: string;
@@ -33,6 +33,7 @@ export default function Medications() {
   const [isAddingMed, setIsAddingMed] = useState(false);
   const [newMed, setNewMed] = useState({ name: '', dosage: '', frequency: '' });
   const [warnings, setWarnings] = useState<Warning[]>([]);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const checkWarnings = (medName: string): Warning[] => {
     const foundWarnings: Warning[] = [];
@@ -115,9 +116,17 @@ export default function Medications() {
   return (
     <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
-        <h2 className="text-lg font-semibold text-stone-900 mb-3">Medications</h2>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center gap-2 w-full mb-3 hover:opacity-70 transition-opacity"
+        >
+          <ChevronDown
+            className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
+          />
+          <h2 className="text-lg font-semibold text-stone-900">Medications</h2>
+        </button>
 
-        <div className="space-y-2 mb-3">
+        {isExpanded && <div className="space-y-2 mb-3">
           {medications.map((med) => (
             <div
               key={med.id}
@@ -138,9 +147,9 @@ export default function Medications() {
               </div>
             </div>
           ))}
-        </div>
+        </div>}
 
-        {isAddingMed ? (
+        {isExpanded && (isAddingMed ? (
           <div className="bg-stone-50 rounded-lg border border-stone-200 p-3 space-y-2">
             <input
               type="text"
@@ -228,7 +237,7 @@ export default function Medications() {
             <Plus className="w-4 h-4" />
             <span className="text-sm font-medium">Add medication</span>
           </button>
-        )}
+        ))}
       </div>
     </div>
   );
