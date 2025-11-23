@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, AlertTriangle, X, ChevronDown } from 'lucide-react';
+import { Plus, AlertTriangle, X, ChevronDown, ExternalLink } from 'lucide-react';
 
 interface Medication {
   id: string;
@@ -35,6 +35,7 @@ export default function Medications() {
   const [newMed, setNewMed] = useState({ name: '', dosage: '', frequency: '' });
   const [warnings, setWarnings] = useState<Warning[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [generatePrescription, setGeneratePrescription] = useState(false);
 
   const hasAnyWarnings = medications.some(med => {
     if (med.warnings && med.warnings.length > 0) return true;
@@ -107,6 +108,7 @@ export default function Medications() {
     setNewMed({ name: '', dosage: '', frequency: '' });
     setIsAddingMed(false);
     setWarnings([]);
+    setGeneratePrescription(false);
   };
 
   const addMedicationAnyway = () => {
@@ -122,6 +124,7 @@ export default function Medications() {
     setNewMed({ name: '', dosage: '', frequency: '' });
     setIsAddingMed(false);
     setWarnings([]);
+    setGeneratePrescription(false);
   };
 
   const removeMedication = (id: string) => {
@@ -202,6 +205,27 @@ export default function Medications() {
               className="w-full px-2 py-1.5 text-sm bg-white border border-stone-300 rounded outline-none focus:border-stone-400"
             />
 
+            <div className="flex items-center justify-between pt-1">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={generatePrescription}
+                  onChange={(e) => setGeneratePrescription(e.target.checked)}
+                  className="w-4 h-4 rounded border-stone-300 text-stone-800 focus:ring-stone-500"
+                />
+                <span className="text-sm text-stone-700">Generate prescription</span>
+              </label>
+              <a
+                href="https://idmp.ucsf.edu/adult-antimicrobial-dosing-non-dialysis"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                <span>Dosage reference</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
             {warnings.length > 0 && (
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 space-y-2">
                 {warnings.map((warning, idx) => (
@@ -227,6 +251,7 @@ export default function Medications() {
                       setWarnings([]);
                       setNewMed({ name: '', dosage: '', frequency: '' });
                       setIsAddingMed(false);
+                      setGeneratePrescription(false);
                     }}
                     className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
                   >
@@ -249,6 +274,7 @@ export default function Medications() {
                     setIsAddingMed(false);
                     setNewMed({ name: '', dosage: '', frequency: '' });
                     setWarnings([]);
+                    setGeneratePrescription(false);
                   }}
                   className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded transition-colors"
                 >
