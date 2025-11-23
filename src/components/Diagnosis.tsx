@@ -119,7 +119,8 @@ export default function Diagnosis() {
                   : 'text-stone-600 hover:text-stone-800'
               }`}
             >
-              <span className="text-sm font-medium">Add</span>
+              <Plus className="w-4 h-4" />
+              <span className="text-sm font-medium">Add Diagnosis</span>
             </button>
           )}
         </div>
