@@ -114,11 +114,11 @@ export default function Medications() {
   };
 
   return (
-    <div className="w-96 h-full bg-stone-50 border-l border-stone-200 flex flex-col overflow-hidden">
+    <div className="border-b border-stone-200 bg-white">
       <div className="p-4">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full mb-3 hover:opacity-70 transition-opacity"
+          className="flex items-center gap-2 mb-3 hover:opacity-70 transition-opacity"
         >
           <ChevronDown
             className={`w-5 h-5 text-stone-600 transition-transform ${isExpanded ? '' : '-rotate-90'}`}
